@@ -1,0 +1,15 @@
+/* Additional style definitions for the bloglinks plugin */
+
+div.plugin_bloglinks__links {
+	text-align: center;
+	margin: 0;
+	width: 100%;
+}
+
+a.plugin_bloglinks__prev {
+	float: left;
+}
+
+a.plugin_bloglinks__next {
+	float:right;
+}
