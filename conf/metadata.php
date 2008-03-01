@@ -8,5 +8,6 @@
  */
 
 $meta['enabled_namespaces'] = array('string');
+$meta['excluded_pages'] = array('string');
 $meta['prev_template'] = array('string');
 $meta['next_template'] = array('string');

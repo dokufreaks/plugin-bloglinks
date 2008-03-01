@@ -88,9 +88,14 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
     	global $ID;
     	global $INFO;
     	
+    	$pattern = $this->getConf('excluded_pages');
+		if (strlen($pattern) > 0 && preg_match($pattern, $ID)) {
+			return false;
+		}
+
 		if (!$INFO['exists'])
 			return false;
-
+		
         $namespaces = explode(',', $this->getConf('enabled_namespaces'));
         foreach ($namespaces as $namespace) {
             if (trim($namespace) && (strpos($ID, $namespace . ':') === 0)) {
@@ -150,12 +155,14 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
 	 */
     function _printLinks($relatedEntries) {
 		// display links
-        echo '<div class="plugin_bloglinks__links">' . DOKU_LF;
-        if (isset ($relatedEntries['prev'])) {
-            echo '<a href="' . wl($relatedEntries['prev']['id'], '') . '" class="wikilink1 plugin_bloglinks__prev" rel="prev">' . $this->_linkTemplate($relatedEntries['prev'], 'prev') . '</a>';
-        }
-        if (isset ($relatedEntries['next'])) {
-            echo '<a href="' . wl($relatedEntries['next']['id'], '') . '" class="wikilink1 plugin_bloglinks__next" rel="next">' . $this->_linkTemplate($relatedEntries['next'], 'next') . '</a>';
+        echo '<div id="plugin_bloglinks__links">' . DOKU_LF;
+        
+        foreach(array('prev', 'next') as $type) {
+	        if (isset ($relatedEntries[$type])) {
+		        echo '<div class="plugin_bloglinks__'.$type.'">';
+	            echo '<a href="' . wl($relatedEntries[$type]['id'], '') . '" class="wikilink1" rel="'.$type.'">' . $this->_linkTemplate($relatedEntries[$type], $type) . '</a>';
+		        echo '</div>';
+	        }
         }
         echo DOKU_LF . '</div>';
     }

@@ -7,5 +7,6 @@
  */
 
 $conf['enabled_namespaces'] = 'blog';
-$conf['prev_template'] = '&lt;&lt; @@TITLE@@';
-$conf['next_template'] = '@@TITLE@@ &gt;&gt;';
+$conf['excluded_pages'] = '';
+$conf['prev_template'] = '&laquo; @@TITLE@@';
+$conf['next_template'] = '@@TITLE@@ &raquo;';
