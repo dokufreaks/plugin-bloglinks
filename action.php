@@ -27,7 +27,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         return array (
             'author' => 'Gina Haeussge',
             'email' => 'osd@foosel.net',
-            'date' => '2007-11-06',
+            'date' => '2008-03-01',
             'name' => 'Bloglinks Plugin',
             'desc' => 'Displays a link to the previous and the next blog entry above posts in configured namespaces',
             'url' => 'http://foosel.org/snippets/dokuwiki/bloglinks',
