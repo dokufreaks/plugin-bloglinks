@@ -1,0 +1,9 @@
+* 2008/03/01:
+  * Added config option ''excluded_pages'' to exclude pages matching a given 
+    regex from showing the bloglinks link. 
+  
+* 2007/11/06:
+  * Fixed small compatibility issue with stable Dokuwiki version
+   
+* 2007/11/04:
+  * Initial release
