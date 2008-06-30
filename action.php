@@ -120,10 +120,15 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         $entries = array_values($entries);
 
 		// prepare search for current page
-        $i = array_search($ID . "\n", $my->page_idx);
-        $date = substr($my->date_idx[$i], 0, -1);
-        $perm = auth_quickaclcheck($ID);
         $meta = p_get_metadata($ID);
+        if ($my->sort == 'mdate') {
+            $date = $meta['date']['modified'];
+            if (!$date) $date = filemtime(wikiFN($ID));
+        } else {
+            $date = $meta['date']['created'];
+            if (!$date) $date = filectime(wikiFN($ID));
+        }
+        $perm = auth_quickaclcheck($ID);
         $curPage = array (
             'id' => $ID,
             'title' => $meta['title'],
