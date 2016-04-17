@@ -38,12 +38,12 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
     /**
      * Register the eventhandlers.
      */
-    function register(& $controller) {
+    function register(Doku_Event_Handler $controller) {
         $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_act_render', array ());
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handle_metaheader_output', array ());
     }
 
-	function handle_metaheader_output(& $event, $params) {
+	function handle_metaheader_output(Doku_Event $event, $params) {
 		global $ACT;
 		
 		if ($ACT != 'show')
@@ -71,7 +71,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         return true;
 	}
 
-    function handle_act_render(& $event, $params) {
+    function handle_act_render(Doku_Event $event, $params) {
 		global $ACT;
 		
 		if ($ACT != 'show')
