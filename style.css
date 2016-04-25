@@ -1,15 +1,15 @@
 /* Additional style definitions for the bloglinks plugin */
 
 div.dokuwiki #plugin_bloglinks__links {
-	text-align: center;
-	clear: both;
-	height: 1.5em;
+    text-align: center;
+    clear: both;
+    height: 1.5em;
 }
 
 div.dokuwiki .plugin_bloglinks__prev {
-	float: left;
+    float: left;
 }
 
 div.dokuwiki .plugin_bloglinks__next {
-	float:right;
+    float:right;
 }

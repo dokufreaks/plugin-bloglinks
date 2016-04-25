@@ -1,0 +1,7 @@
+base   bloglinks
+author Gina Häussge
+email  osd@foosel.net
+date   2016-04-25
+name   Bloglinks Plugin
+desc   Displays a link to the previous and the next blog entry above posts in configured namespaces
+url    http://foosel.org/snippets/dokuwiki/bloglinks

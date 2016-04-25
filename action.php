@@ -23,18 +23,6 @@ require_once(DOKU_INC . 'inc/pageutils.php');
 
 class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
 
-    function getInfo() {
-        return array (
-            'author' => 'Gina Haeussge',
-            'email' => 'osd@foosel.net',
-            'date' => @file_get_contents(DOKU_PLUGIN . 'blog/VERSION'),
-            'name' => 'Bloglinks Plugin',
-            'desc' => 'Displays a link to the previous and the next blog entry above posts in configured namespaces',
-            'url' => 'http://foosel.org/snippets/dokuwiki/bloglinks',
-            
-        );
-    }
-
     /**
      * Register the eventhandlers.
      */
@@ -43,59 +31,59 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         $controller->register_hook('TPL_METAHEADER_OUTPUT', 'BEFORE', $this, 'handle_metaheader_output', array ());
     }
 
-	function handle_metaheader_output(Doku_Event $event, $params) {
-		global $ACT;
-		
-		if ($ACT != 'show')
-			return;
-		
-		$namespace = $this->_getActiveNamespace();
-		if (!$namespace)
-			return;
-			
-		$relatedEntries = $this->_getRelatedEntries($namespace);
+    function handle_metaheader_output(Doku_Event $event, $params) {
+        global $ACT;
+
+        if ($ACT != 'show')
+            return;
+
+        $namespace = $this->_getActiveNamespace();
+        if (!$namespace)
+            return;
+
+        $relatedEntries = $this->_getRelatedEntries($namespace);
 
         if (isset ($relatedEntries['prev'])) {
-	        $event->data['link'][] = array (
-	            'rel' => 'prev',
-	            'href' => wl($relatedEntries['prev']['id'], '')
-	        );
+            $event->data['link'][] = array (
+                'rel' => 'prev',
+                'href' => wl($relatedEntries['prev']['id'], '')
+            );
         }
         if (isset ($relatedEntries['next'])) {
-	        $event->data['link'][] = array (
-	            'rel' => 'next',
-	            'href' => wl($relatedEntries['next']['id'], '')
-	        );
+            $event->data['link'][] = array (
+                'rel' => 'next',
+                'href' => wl($relatedEntries['next']['id'], '')
+            );
         }
 
         return true;
-	}
+    }
 
     function handle_act_render(Doku_Event $event, $params) {
-		global $ACT;
-		
-		if ($ACT != 'show')
-			return;
+        global $ACT;
 
-		$namespace = $this->_getActiveNamespace();
-		if ($namespace)
-			$this->_printLinks($this->_getRelatedEntries($namespace));
+        if ($ACT != 'show')
+            return;
+
+        $namespace = $this->_getActiveNamespace();
+        if ($namespace)
+            $this->_printLinks($this->_getRelatedEntries($namespace));
 
         return true;
     }
     
     function _getActiveNamespace() {
-    	global $ID;
-    	global $INFO;
-    	
-    	$pattern = $this->getConf('excluded_pages');
-		if (strlen($pattern) > 0 && preg_match($pattern, $ID)) {
-			return false;
-		}
+        global $ID;
+        global $INFO;
 
-		if (!$INFO['exists'])
-			return false;
-		
+        $pattern = $this->getConf('excluded_pages');
+        if (strlen($pattern) > 0 && preg_match($pattern, $ID)) {
+            return false;
+        }
+
+        if (!$INFO['exists'])
+            return false;
+
         $namespaces = explode(',', $this->getConf('enabled_namespaces'));
         foreach ($namespaces as $namespace) {
             if (trim($namespace) && (strpos($ID, $namespace . ':') === 0)) {
@@ -116,10 +104,10 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         if (!$entries)
             return;
 
-		// normalize keys
+        // normalize keys
         $entries = array_values($entries);
 
-		// prepare search for current page
+        // prepare search for current page
         $meta = p_get_metadata($ID);
         if ($my->sort == 'mdate') {
             $date = $meta['date']['modified'];
@@ -143,7 +131,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         // get index of current page 
         $curIndex = array_search($curPage, $entries);
 
-		// get previous and next entries
+        // get previous and next entries
         if ($curIndex > 0 && curIndex < count($entries) - 1) { // got a prev and a next
             list ($next, $cur, $prev) = array_slice($entries, $curIndex -1, 3);
         } else if ($curIndex == 0) { // only got a prev
@@ -151,23 +139,23 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         } else { // only got a next
             list ($next, $cur) = array_slice($entries, $curIndex -1, 2);
         }
-		
-		return array('prev' => $prev, 'cur' => $cur, 'next' => $next);
+
+        return array('prev' => $prev, 'cur' => $cur, 'next' => $next);
     }
 
-	/**
-	 * Prints the links to the related entries
-	 */
+    /**
+     * Prints the links to the related entries
+     */
     function _printLinks($relatedEntries) {
-		// display links
+        // display links
         echo '<div id="plugin_bloglinks__links">' . DOKU_LF;
         
         foreach(array('prev', 'next') as $type) {
-	        if (isset ($relatedEntries[$type])) {
-		        echo '<div class="plugin_bloglinks__'.$type.'">';
-	            echo '<a href="' . wl($relatedEntries[$type]['id'], '') . '" class="wikilink1" rel="'.$type.'">' . $this->_linkTemplate($relatedEntries[$type], $type) . '</a>';
-		        echo '</div>';
-	        }
+            if (isset ($relatedEntries[$type])) {
+                echo '<div class="plugin_bloglinks__'.$type.'">';
+                echo '<a href="' . wl($relatedEntries[$type]['id'], '') . '" class="wikilink1" rel="'.$type.'">' . $this->_linkTemplate($relatedEntries[$type], $type) . '</a>';
+                echo '</div>';
+            }
         }
         echo DOKU_LF . '</div>';
     }
@@ -176,10 +164,10 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         global $conf;
         
         $replace = array(
-        	'@@TITLE@@' => $entry['title'],
-        	'@@AUTHOR@@' => $entry['user'],
-        	'@@DATE@@' => date($conf['dformat'], $entry['date']),
-        	'@@NAME@@' => $this->getLang($type . '_link'),
+            '@@TITLE@@' => $entry['title'],
+            '@@AUTHOR@@' => $entry['user'],
+            '@@DATE@@' => date($conf['dformat'], $entry['date']),
+            '@@NAME@@' => $this->getLang($type . '_link'),
         );
         
         $linktext = $this->getConf($type.'_template');
