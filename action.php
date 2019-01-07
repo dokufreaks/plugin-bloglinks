@@ -132,7 +132,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         $curIndex = array_search($curPage, $entries);
 
         // get previous and next entries
-        if ($curIndex > 0 && curIndex < count($entries) - 1) { // got a prev and a next
+        if ($curIndex > 0 && $curIndex < count($entries) - 1) { // got a prev and a next
             list ($next, $cur, $prev) = array_slice($entries, $curIndex -1, 3);
         } else if ($curIndex == 0) { // only got a prev
             list ($cur, $prev) = array_slice($entries, $curIndex, 2);
