@@ -66,9 +66,6 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
             return;
 
         $namespace = $this->_getActiveNamespace();
-        if(! $namespace){
-            $namespace = getNS(getID());
-        }
         if ($namespace)
             $this->_printLinks($this->_getRelatedEntries($namespace));
 
