@@ -71,7 +71,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
 
         return true;
     }
-    
+
     function _getActiveNamespace() {
         global $ID;
         global $INFO;
@@ -85,15 +85,26 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
             return false;
 
         $namespaces = explode(',', $this->getConf('enabled_namespaces'));
+        $current_id_parts = explode(':', getNS($ID));
         foreach ($namespaces as $namespace) {
-            if (trim($namespace) && (strpos($ID, $namespace . ':') === 0)) {
-                return $namespace;
-            }
-        }
+            $namespaceparts = explode(':', $namespace);
 
+            // number of namespace elements must be the same
+            if (count($namespaceparts) != count($current_id_parts)) {
+                continue;
+            }
+            
+            // mutching each elements in the order
+            for ($i = 0 ; $i < count($namespaceparts) ; $i++ ) {
+                if (!preg_match("/$namespaceparts[$i]/",$current_id_parts[$i])) {
+                    continue 2;
+                } 
+            }
+            return getNS($ID);
+        }
         return false;
     }
-    
+
     function _getRelatedEntries($namespace) {
         global $ID;
 
