@@ -157,7 +157,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
                 echo '</div>';
             }
         }
-        echo DOKU_LF . '</div>';
+        echo DOKU_LF . '</div>' . DOKU_LF . '<div style="clear: both;"/>';
     }
     
     function _linkTemplate($entry, $type) {
