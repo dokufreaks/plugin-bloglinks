@@ -7,20 +7,6 @@
  * @author   Gina Haeussge <osd@foosel.net>
  */
 
-// must be run within Dokuwiki
-if (!defined('DOKU_INC'))
-    die();
-
-if (!defined('DOKU_LF'))
-    define('DOKU_LF', "\n");
-if (!defined('DOKU_TAB'))
-    define('DOKU_TAB', "\t");
-if (!defined('DOKU_PLUGIN'))
-    define('DOKU_PLUGIN', DOKU_INC . 'lib/plugins/');
-
-require_once (DOKU_PLUGIN . 'action.php');
-require_once(DOKU_INC . 'inc/pageutils.php');
-
 class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
 
     /**
@@ -148,7 +134,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
      */
     function _printLinks($relatedEntries) {
         // display links
-        echo '<div id="plugin_bloglinks__links">' . DOKU_LF;
+        echo '<div id="plugin_bloglinks__links">';
         
         foreach(array('prev', 'next') as $type) {
             if (isset ($relatedEntries[$type])) {
