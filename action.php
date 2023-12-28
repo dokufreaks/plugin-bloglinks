@@ -104,10 +104,6 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         }
         $perm = auth_quickaclcheck($ID);
         // Diagnostic
-        var_dump($ID);
-        var_dump($date);
-        var_dump($perm);
-        var_dump($meta);
         $curPage = array (
             'id' => $ID,
             'title' => $meta['title'],
@@ -116,7 +112,7 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
             'desc' => $meta['description']['abstract'],
             'exists' => true,
             'perm' => $perm,
-            'draft' => ($meta['type'] == 'draft'),
+            'draft' => (isset($meta['type']) && $meta['type'] == 'draft'),
         );
         
         // get index of current page 
@@ -134,6 +130,9 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         } else { // only got a next
             list ($next, $cur) = array_slice($entries, $curIndex -1, 2);
         }
+
+        // Diagnostic
+        var_dump(array('prev' => $prev, 'cur' => $cur, 'next' => $next));
 
         return array('prev' => $prev, 'cur' => $cur, 'next' => $next);
     }
