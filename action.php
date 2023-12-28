@@ -118,9 +118,10 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         // get index of current page 
         $curIndex = array_search($curPage, $entries);
 
-        // Diagnostic
-        var_dump($curIndex);
-        var_dump($entries);
+        // Initialize prev, cur and next with null
+        $cur = null;
+        $prev = null;
+        $next = null;
 
         // get previous and next entries
         if ($curIndex > 0 && $curIndex < count($entries) - 1) { // got a prev and a next
@@ -130,9 +131,6 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         } else { // only got a next
             list ($next, $cur) = array_slice($entries, $curIndex -1, 2);
         }
-
-        // Diagnostic
-        var_dump(array('prev' => $prev, 'cur' => $cur, 'next' => $next));
 
         return array('prev' => $prev, 'cur' => $cur, 'next' => $next);
     }
