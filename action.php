@@ -103,6 +103,11 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
             if (!$date) $date = filectime(wikiFN($ID));
         }
         $perm = auth_quickaclcheck($ID);
+        // Diagnostic
+        var_dump($ID);
+        var_dump($date);
+        var_dump($perm);
+        var_dump($meta);
         $curPage = array (
             'id' => $ID,
             'title' => $meta['title'],
@@ -116,6 +121,10 @@ class action_plugin_bloglinks extends DokuWiki_Action_Plugin {
         
         // get index of current page 
         $curIndex = array_search($curPage, $entries);
+
+        // Diagnostic
+        var_dump($curIndex);
+        var_dump($entries);
 
         // get previous and next entries
         if ($curIndex > 0 && $curIndex < count($entries) - 1) { // got a prev and a next
